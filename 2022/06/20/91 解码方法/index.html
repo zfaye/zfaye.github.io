@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 力扣2226 分糖果 2226. 每个小孩最多能分到多少糖果难度中等18 给你一个 下标从 0 开始 的整数数组 candies 。数组中的每个元素表示大小为 candies[i] 的一堆糖果。你可以将每堆糖果分成任意数量的 子堆 ，但 无法 再将两堆合并到一起。 另给你一个整数 k 。你需要将这些糖果分配给 k 个小孩，使每个小孩分到 相同 数量的糖果。每个小孩可以拿走 至多一堆">
+  <meta name="description" content="91. 解码方法难度中等1120 一条包含字母 A-Z 的消息通过以下映射进行了 编码 ： 1234&amp;#x27;A&amp;#x27; -&gt; &quot;1&quot;&amp;#x27;B&amp;#x27; -&gt; &quot;2&quot;...&amp;#x27;Z&amp;#x27; -&gt; &quot;26&quot;  要 解码 已编码的消息，所有数字必须基于上述映射的方法，反向映射回字母（可能有多种方法）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2022/06/20/2226%20%E5%88%86%E7%B3%96%E6%9E%9C/index.html">
+<meta property="og:url" content="http://example.com/2022/06/20/91%20%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="title: 力扣2226 分糖果 2226. 每个小孩最多能分到多少糖果难度中等18 给你一个 下标从 0 开始 的整数数组 candies 。数组中的每个元素表示大小为 candies[i] 的一堆糖果。你可以将每堆糖果分成任意数量的 子堆 ，但 无法 再将两堆合并到一起。 另给你一个整数 k 。你需要将这些糖果分配给 k 个小孩，使每个小孩分到 相同 数量的糖果。每个小孩可以拿走 至多一堆">
+<meta property="og:description" content="91. 解码方法难度中等1120 一条包含字母 A-Z 的消息通过以下映射进行了 编码 ： 1234&amp;#x27;A&amp;#x27; -&gt; &quot;1&quot;&amp;#x27;B&amp;#x27; -&gt; &quot;2&quot;...&amp;#x27;Z&amp;#x27; -&gt; &quot;26&quot;  要 解码 已编码的消息，所有数字必须基于上述映射的方法，反向映射回字母（可能有多种方法）。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-06-20T10:13:13.789Z">
-<meta property="article:modified_time" content="2022-06-20T10:13:04.259Z">
+<meta property="article:published_time" content="2022-06-20T10:20:21.763Z">
+<meta property="article:modified_time" content="2022-03-23T01:48:26.000Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -154,17 +154,24 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-2226 分糖果" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-91 解码方法" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 力扣2226 分糖果</p>
-<h4 id="2226-每个小孩最多能分到多少糖果"><a href="#2226-每个小孩最多能分到多少糖果" class="headerlink" title="2226. 每个小孩最多能分到多少糖果"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-candies-allocated-to-k-children/">2226. 每个小孩最多能分到多少糖果</a></h4><p>难度中等18</p>
-<p>给你一个 <strong>下标从 0 开始</strong> 的整数数组 <code>candies</code> 。数组中的每个元素表示大小为 <code>candies[i]</code> 的一堆糖果。你可以将每堆糖果分成任意数量的 <strong>子堆</strong> ，但 <strong>无法</strong> 再将两堆合并到一起。</p>
-<p>另给你一个整数 <code>k</code> 。你需要将这些糖果分配给 <code>k</code> 个小孩，使每个小孩分到 <strong>相同</strong> 数量的糖果。每个小孩可以拿走 <strong>至多一堆</strong> 糖果，有些糖果可能会不被分配。</p>
-<p>返回每个小孩可以拿走的 <strong>最大糖果数目</strong> 。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maximumCandies</span><span class="params">(<span class="type">int</span>[] candies, <span class="type">long</span> k)</span> &#123;</span><br><span class="line">       </span><br><span class="line">        <span class="type">long</span> max=(<span class="type">long</span>)<span class="number">1e7</span>;</span><br><span class="line">      <span class="comment">//  int min=candies[0];</span></span><br><span class="line">     <span class="type">long</span> left=-<span class="number">1</span>; <span class="type">long</span> right=max+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left+<span class="number">1</span>!=right)&#123;<span class="comment">// </span></span><br><span class="line">            <span class="type">long</span> mid=left+(right-left)/<span class="number">2</span>;</span><br><span class="line">            <span class="type">long</span> count=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(mid==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> num:candies)&#123;</span><br><span class="line">                count+=num/mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(count&lt;k) right=mid;</span><br><span class="line">            <span class="keyword">else</span> left=mid;足条件的最大值</span><br><span class="line">           </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>)left;<span class="comment">//返回Left</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h4 id="91-解码方法"><a href="#91-解码方法" class="headerlink" title="91. 解码方法"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/decode-ways/">91. 解码方法</a></h4><p>难度中等1120</p>
+<p>一条包含字母 <code>A-Z</code> 的消息通过以下映射进行了 <strong>编码</strong> ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x27;A&#x27; -&gt; &quot;1&quot;</span><br><span class="line">&#x27;B&#x27; -&gt; &quot;2&quot;</span><br><span class="line">...</span><br><span class="line">&#x27;Z&#x27; -&gt; &quot;26&quot;</span><br></pre></td></tr></table></figure>
+
+<p>要 <strong>解码</strong> 已编码的消息，所有数字必须基于上述映射的方法，反向映射回字母（可能有多种方法）。例如，<code>&quot;11106&quot;</code> 可以映射为：</p>
+<ul>
+<li><code>&quot;AAJF&quot;</code> ，将消息分组为 <code>(1 1 10 6)</code></li>
+<li><code>&quot;KJF&quot;</code> ，将消息分组为 <code>(11 10 6)</code></li>
+</ul>
+<p>注意，消息不能分组为 <code>(1 11 06)</code> ，因为 <code>&quot;06&quot;</code> 不能映射为 <code>&quot;F&quot;</code> ，这是由于 <code>&quot;6&quot;</code> 和 <code>&quot;06&quot;</code> 在映射中并不等价。</p>
+<p>给你一个只含数字的 <strong>非空</strong> 字符串 <code>s</code> ，请计算并返回 <strong>解码</strong> 方法的 <strong>总数</strong> 。</p>
+<p>题目数据保证答案肯定是一个 <strong>32 位</strong> 的整数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    上楼梯的复杂版？</span></span><br><span class="line"><span class="comment">    如果连续的两位数符合条件，就相当于一个上楼梯的题目，可以有两种选法：</span></span><br><span class="line"><span class="comment">        1.一位数决定一个字母，dp[i-1] </span></span><br><span class="line"><span class="comment">        2.两位数决定一个字母，dp[i-2]</span></span><br><span class="line"><span class="comment">        就相当于dp(i) = dp[i-1] + dp[i-2];</span></span><br><span class="line"><span class="comment">    如果不符合条件，又有两种情况</span></span><br><span class="line"><span class="comment">        1.当前数字是0：</span></span><br><span class="line"><span class="comment">            不好意思，这阶楼梯不能单独走，</span></span><br><span class="line"><span class="comment">            dp[i] = dp[i-2]</span></span><br><span class="line"><span class="comment">        2.当前数字不是0</span></span><br><span class="line"><span class="comment">            不好意思，这阶楼梯太宽，走两步容易扯着步子，只能一个一个走</span></span><br><span class="line"><span class="comment">            dp[i] = dp[i-1];</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">numDecodings</span><span class="params">(String s)</span> &#123;</span><br><span class="line">        <span class="type">int</span> n=s.length();</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(<span class="number">0</span>)==<span class="string">&#x27;0&#x27;</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[] dp=<span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">1</span>; dp[<span class="number">1</span>]=<span class="number">1</span>;</span><br><span class="line">      <span class="comment">//  int pre=s.charAt(0)-&#x27;0&#x27;;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>;i&lt;n+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> cur=s.charAt(i-<span class="number">1</span>)-<span class="string">&#x27;0&#x27;</span>;<span class="comment">//对于字符到数字的转换</span></span><br><span class="line">            <span class="type">int</span> pre=s.charAt(i-<span class="number">2</span>)-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">           <span class="keyword">if</span>((pre==<span class="number">0</span> || pre&gt;<span class="number">2</span>)&amp;&amp; cur==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">           &#125;<span class="keyword">else</span> <span class="keyword">if</span>(cur==<span class="number">0</span>)&#123;</span><br><span class="line">               dp[i]=dp[i-<span class="number">2</span>];<span class="comment">//当前数字为0</span></span><br><span class="line">           &#125;</span><br><span class="line">          </span><br><span class="line">           <span class="keyword">if</span>((pre&lt;<span class="number">2</span> &amp;&amp; pre&gt;<span class="number">0</span>) ||(pre==<span class="number">2</span> &amp;&amp; cur&lt;<span class="number">7</span>))&#123;</span><br><span class="line">               <span class="keyword">if</span>(cur!=<span class="number">0</span>)&#123;</span><br><span class="line">                   dp[i]=dp[i-<span class="number">2</span>]+dp[i-<span class="number">1</span>];<span class="comment">//连续两位数符合条件</span></span><br><span class="line">               &#125;</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               dp[i]=dp[i-<span class="number">1</span>];<span class="comment">//楼梯太宽</span></span><br><span class="line">           &#125;</span><br><span class="line">          <span class="comment">// pre=cur;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       
@@ -245,7 +252,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/06/20/2226%20%E5%88%86%E7%B3%96%E6%9E%9C/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/06/20/91%20%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -259,7 +266,7 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/06/20/0-1%E8%83%8C%E5%8C%85/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/06/20/96%20%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
@@ -269,8 +276,8 @@
     </a>
   
   
-    <a href="/2022/06/20/test-my-site/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">test_my_site</div>
+    <a href="/2022/06/20/72%20%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 力扣2226 分糖果 2226. 每个小孩最多能分到多少糖果难度中等18 给你一个 下标从 0 开始 的整数数组 candies 。数组中的每个元素表示大小为 candies[i] 的一堆糖果。你可以将每堆糖果分成任意数量的 子堆 ，但 无法 再将两堆合并到一起。 另给你一个整数 k 。你需要将这些糖果分配给 k 个小孩，使每个小孩分到 相同 数量的糖果。每个小孩可以拿走 至多一堆">
+  <meta name="description" content="121. 买卖股票的最佳时机难度简单2238 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。  题解： 动态规划 前i天的最大收益 &#x3D;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2022/06/20/2226%20%E5%88%86%E7%B3%96%E6%9E%9C/index.html">
+<meta property="og:url" content="http://example.com/2022/06/20/121%20%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="title: 力扣2226 分糖果 2226. 每个小孩最多能分到多少糖果难度中等18 给你一个 下标从 0 开始 的整数数组 candies 。数组中的每个元素表示大小为 candies[i] 的一堆糖果。你可以将每堆糖果分成任意数量的 子堆 ，但 无法 再将两堆合并到一起。 另给你一个整数 k 。你需要将这些糖果分配给 k 个小孩，使每个小孩分到 相同 数量的糖果。每个小孩可以拿走 至多一堆">
+<meta property="og:description" content="121. 买卖股票的最佳时机难度简单2238 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。  题解： 动态规划 前i天的最大收益 &#x3D;">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-06-20T10:13:13.789Z">
-<meta property="article:modified_time" content="2022-06-20T10:13:04.259Z">
+<meta property="article:published_time" content="2022-06-20T10:20:21.767Z">
+<meta property="article:modified_time" content="2022-04-14T17:54:26.000Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -154,17 +154,21 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-2226 分糖果" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-121 股票问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 力扣2226 分糖果</p>
-<h4 id="2226-每个小孩最多能分到多少糖果"><a href="#2226-每个小孩最多能分到多少糖果" class="headerlink" title="2226. 每个小孩最多能分到多少糖果"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-candies-allocated-to-k-children/">2226. 每个小孩最多能分到多少糖果</a></h4><p>难度中等18</p>
-<p>给你一个 <strong>下标从 0 开始</strong> 的整数数组 <code>candies</code> 。数组中的每个元素表示大小为 <code>candies[i]</code> 的一堆糖果。你可以将每堆糖果分成任意数量的 <strong>子堆</strong> ，但 <strong>无法</strong> 再将两堆合并到一起。</p>
-<p>另给你一个整数 <code>k</code> 。你需要将这些糖果分配给 <code>k</code> 个小孩，使每个小孩分到 <strong>相同</strong> 数量的糖果。每个小孩可以拿走 <strong>至多一堆</strong> 糖果，有些糖果可能会不被分配。</p>
-<p>返回每个小孩可以拿走的 <strong>最大糖果数目</strong> 。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maximumCandies</span><span class="params">(<span class="type">int</span>[] candies, <span class="type">long</span> k)</span> &#123;</span><br><span class="line">       </span><br><span class="line">        <span class="type">long</span> max=(<span class="type">long</span>)<span class="number">1e7</span>;</span><br><span class="line">      <span class="comment">//  int min=candies[0];</span></span><br><span class="line">     <span class="type">long</span> left=-<span class="number">1</span>; <span class="type">long</span> right=max+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left+<span class="number">1</span>!=right)&#123;<span class="comment">// </span></span><br><span class="line">            <span class="type">long</span> mid=left+(right-left)/<span class="number">2</span>;</span><br><span class="line">            <span class="type">long</span> count=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(mid==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> num:candies)&#123;</span><br><span class="line">                count+=num/mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(count&lt;k) right=mid;</span><br><span class="line">            <span class="keyword">else</span> left=mid;足条件的最大值</span><br><span class="line">           </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>)left;<span class="comment">//返回Left</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h4 id="121-买卖股票的最佳时机"><a href="#121-买卖股票的最佳时机" class="headerlink" title="121. 买卖股票的最佳时机"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/">121. 买卖股票的最佳时机</a></h4><p>难度简单2238</p>
+<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p>
+<p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>
+<p> <strong>题解：</strong></p>
+<p>动态规划 前i天的最大收益 &#x3D; max{前i-1天的最大收益，第i天的价格-前i-1天中的最小价格}</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：[7,1,5,3,6,4]</span><br><span class="line">输出：5</span><br><span class="line">解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。</span><br><span class="line">     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">      <span class="type">int</span> n=prices.length;</span><br><span class="line">      <span class="keyword">if</span>(n==<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   <span class="comment">//   int[]dp=new int[n];dp-&gt;sell 空间压缩</span></span><br><span class="line">    <span class="comment">//  int maxProfit=0;</span></span><br><span class="line">    <span class="type">int</span> sell=<span class="number">0</span>;</span><br><span class="line">      <span class="type">int</span> buymin=Integer.MAX_VALUE;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;  </span><br><span class="line">             buymin=Math.min(prices[i-<span class="number">1</span>],buymin);</span><br><span class="line">             sell=Math.max(sell,prices[i]-buymin);        </span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> sell;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       
@@ -245,7 +249,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/06/20/2226%20%E5%88%86%E7%B3%96%E6%9E%9C/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/06/20/121%20%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -259,7 +263,7 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/06/20/0-1%E8%83%8C%E5%8C%85/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/06/20/198%20%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8DI/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
@@ -269,8 +273,8 @@
     </a>
   
   
-    <a href="/2022/06/20/test-my-site/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">test_my_site</div>
+    <a href="/2022/06/20/96%20%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
   
