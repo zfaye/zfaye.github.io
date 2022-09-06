@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hessian矩阵 梯度下降法——古老，不具有实用性 梯度下降缺点梯度法短视，容易出现锯齿状，迭代难收敛。（初始值敏感）2.步长选取——容易振荡不收敛  牛顿法——避免锯齿状迭代两点一阶导数相同，但是红点二阶导数大，所以步长小蓝点二阶导数小，步长大 缺点：海森矩阵计算量大 高斯-牛顿函数  LM方法阻尼牛顿法 一阶泰勒没法近似  对与 μ&gt;0 ， (H+μI) 正定，保证了 h 是梯度下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/09/06/%E6%9C%80%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hessian矩阵 梯度下降法——古老，不具有实用性 梯度下降缺点梯度法短视，容易出现锯齿状，迭代难收敛。（初始值敏感）2.步长选取——容易振荡不收敛  牛顿法——避免锯齿状迭代两点一阶导数相同，但是红点二阶导数大，所以步长小蓝点二阶导数小，步长大 缺点：海森矩阵计算量大 高斯-牛顿函数  LM方法阻尼牛顿法 一阶泰勒没法近似  对与 μ&gt;0 ， (H+μI) 正定，保证了 h 是梯度下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081150304-d80d1e44-585f-4499-870a-1454e8cb0406.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=430&id=u1b2f2cdd&margin=%5Bobject%20Object%5D&name=image.png&originHeight=430&originWidth=917&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59694&status=done&style=none&taskId=u81fbb296-bfe6-4fb5-809c-1fc555f12d5&title=&width=917">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661080901189-ed2daec4-a7ac-48b4-bae8-c810d150ecd9.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=392&id=ub0619fc6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=392&originWidth=931&originalType=binary&ratio=1&rotation=0&showTitle=false&size=100303&status=done&style=none&taskId=ud69d8114-28c5-4185-81db-ed227569f5c&title=&width=931">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081248178-f0e955ac-ea9c-43ba-9936-d584fcb30b80.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=447&id=ue1a64bb6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=447&originWidth=913&originalType=binary&ratio=1&rotation=0&showTitle=false&size=85356&status=done&style=none&taskId=u32ef1d0f-a025-4ef6-9454-8eb3c28e7ac&title=&width=913">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081287190-b762509f-74bc-43bf-8bf7-50c335da3e8f.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=478&id=u7c44a165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=478&originWidth=927&originalType=binary&ratio=1&rotation=0&showTitle=false&size=137968&status=done&style=none&taskId=ubc82bd2a-4a3d-4702-97e0-40abfd55795&title=&width=927">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081460228-d36ad241-dfeb-4b25-a03e-8265d70b1a8e.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=475&id=u85891f16&margin=%5Bobject%20Object%5D&name=image.png&originHeight=475&originWidth=875&originalType=binary&ratio=1&rotation=0&showTitle=false&size=126070&status=done&style=none&taskId=u55992e1a-ea8d-480a-9b66-88609520df4&title=&width=875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081594026-7363421a-22da-43ba-b7b0-26ce296eef38.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=472&id=u9e959126&margin=%5Bobject%20Object%5D&name=image.png&originHeight=472&originWidth=803&originalType=binary&ratio=1&rotation=0&showTitle=false&size=241287&status=done&style=none&taskId=u541bf8b4-8bb5-4f4c-a16d-b95c92d2bd3&title=&width=803">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081616151-b064634f-c7ff-4061-86c0-11dc6bb38758.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=486&id=ud1891748&margin=%5Bobject%20Object%5D&name=image.png&originHeight=486&originWidth=846&originalType=binary&ratio=1&rotation=0&showTitle=false&size=291193&status=done&style=none&taskId=u87ccf298-d272-42b5-a835-ca15c162d9b&title=&width=846">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081705254-7e8b54b0-8003-4290-aefa-b6815bc47793.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=486&id=uadeca433&margin=%5Bobject%20Object%5D&name=image.png&originHeight=486&originWidth=805&originalType=binary&ratio=1&rotation=0&showTitle=false&size=164210&status=done&style=none&taskId=u0ef8a5c3-e2b1-4950-8740-f6683cec747&title=&width=805">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081809734-5d8cc0c9-fe15-4bf0-b784-057e7067ba67.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=484&id=uc3c59162&margin=%5Bobject%20Object%5D&name=image.png&originHeight=484&originWidth=834&originalType=binary&ratio=1&rotation=0&showTitle=false&size=187536&status=done&style=none&taskId=u59bd8bb0-0767-4281-a483-9e266f7d27f&title=&width=834">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661082935537-057ad0df-f733-4de1-9995-a41a4fad0c83.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=493&id=uf4d2c7d7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=493&originWidth=892&originalType=binary&ratio=1&rotation=0&showTitle=false&size=80095&status=done&style=none&taskId=u27d9164e-e4f8-4ab4-a147-6663ed9fe32&title=&width=892">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661082675852-8ac1ab71-9dd3-4084-a748-2f30e89d13fc.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=482&id=uaf726490&margin=%5Bobject%20Object%5D&name=image.png&originHeight=482&originWidth=893&originalType=binary&ratio=1&rotation=0&showTitle=false&size=86988&status=done&style=none&taskId=u71d939eb-15ce-421e-a192-acb12caa308&title=&width=893">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661083050740-4d7fcc0a-4adf-46fa-845b-197267bb056e.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=459&id=ucdfcb18b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=459&originWidth=922&originalType=binary&ratio=1&rotation=0&showTitle=false&size=100236&status=done&style=none&taskId=uc9d78547-471b-4c84-90fc-98ae9060d93&title=&width=922">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661083250667-797bab83-1a61-4fcd-92c5-4615c1d3e0ed.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=807&id=u5af9f4ce&margin=%5Bobject%20Object%5D&name=image.png&originHeight=807&originWidth=1379&originalType=binary&ratio=1&rotation=0&showTitle=false&size=298901&status=done&style=none&taskId=u5a415916-0939-4dfb-85ae-0c38d8c093b&title=&width=1379">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084006225-dd31d2be-2cbd-44e0-a616-2bbdd82cfc35.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=759&id=u4c1def9b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=759&originWidth=1430&originalType=binary&ratio=1&rotation=0&showTitle=false&size=269934&status=done&style=none&taskId=u253f75a2-0769-460e-a18a-ab57f522503&title=&width=1430">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084064038-9a4a0bc4-b77e-4e90-9a05-7a2284247b16.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=563&id=u6fe4f261&margin=%5Bobject%20Object%5D&name=image.png&originHeight=563&originWidth=976&originalType=binary&ratio=1&rotation=0&showTitle=false&size=156620&status=done&style=none&taskId=u089e4b1d-d486-4e12-9c2b-77eb0e535c0&title=&width=976">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084079351-03527915-7a03-48ba-83f0-15d1bbbc091f.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=187&id=ub5360066&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=825&originalType=binary&ratio=1&rotation=0&showTitle=false&size=46883&status=done&style=none&taskId=u7a6ec5f8-2ea3-4207-81f2-858f68f430a&title=&width=825">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1660446916806-6cc5f898-748c-4794-84a9-6c2fc62d188a.png#clientId=udba6befc-d257-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=217&id=Ndqqf&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=1047&originalType=binary&ratio=1&rotation=0&showTitle=false&size=48662&status=done&style=none&taskId=ua188d4a8-ac16-4d76-b790-225988ca14e&title=&width=1047">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084176866-e758d156-f05d-4f67-9dc0-a4370afe8b57.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=714&id=ubd3c7421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=714&originWidth=1444&originalType=binary&ratio=1&rotation=0&showTitle=false&size=310383&status=done&style=none&taskId=ucda6ba50-0108-4ac6-b203-3404c917439&title=&width=1444">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084431955-3565afb5-f615-4a89-b207-608d020428c1.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=773&id=u988f6eba&margin=%5Bobject%20Object%5D&name=image.png&originHeight=773&originWidth=1349&originalType=binary&ratio=1&rotation=0&showTitle=false&size=178595&status=done&style=none&taskId=u8d41a0b4-6f47-43ae-87e7-f309a4851b6&title=&width=1349">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084537208-810c7570-9b34-4622-9092-e5105ec893bc.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=751&id=u582af32b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=751&originWidth=1347&originalType=binary&ratio=1&rotation=0&showTitle=false&size=280393&status=done&style=none&taskId=ud5a95850-0354-47e9-9d81-82c5c085641&title=&width=1347">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084606734-a072dee2-0e58-4be2-960c-c73441b7f8c6.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=215&id=u88f9c17b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=215&originWidth=799&originalType=binary&ratio=1&rotation=0&showTitle=false&size=69484&status=done&style=none&taskId=u8ec4d9f7-34d5-471d-bcac-9e8b4fa4090&title=&width=799">
+<meta property="article:published_time" content="2022-09-06T09:19:49.897Z">
+<meta property="article:modified_time" content="2022-09-06T09:18:24.215Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081150304-d80d1e44-585f-4499-870a-1454e8cb0406.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=430&id=u1b2f2cdd&margin=%5Bobject%20Object%5D&name=image.png&originHeight=430&originWidth=917&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59694&status=done&style=none&taskId=u81fbb296-bfe6-4fb5-809c-1fc555f12d5&title=&width=917">
+  
+  
+  
+  <title>Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>who&#39;s workspace</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-06 17:19" pubdate>
+          2022年9月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          383 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081150304-d80d1e44-585f-4499-870a-1454e8cb0406.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=430&id=u1b2f2cdd&margin=%5Bobject%20Object%5D&name=image.png&originHeight=430&originWidth=917&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59694&status=done&style=none&taskId=u81fbb296-bfe6-4fb5-809c-1fc555f12d5&title=&width=917" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661080901189-ed2daec4-a7ac-48b4-bae8-c810d150ecd9.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=392&id=ub0619fc6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=392&originWidth=931&originalType=binary&ratio=1&rotation=0&showTitle=false&size=100303&status=done&style=none&taskId=ud69d8114-28c5-4185-81db-ed227569f5c&title=&width=931" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="Hessian矩阵"><a href="#Hessian矩阵" class="headerlink" title="Hessian矩阵"></a>Hessian矩阵</h4><p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081248178-f0e955ac-ea9c-43ba-9936-d584fcb30b80.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=447&id=ue1a64bb6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=447&originWidth=913&originalType=binary&ratio=1&rotation=0&showTitle=false&size=85356&status=done&style=none&taskId=u32ef1d0f-a025-4ef6-9454-8eb3c28e7ac&title=&width=913" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081287190-b762509f-74bc-43bf-8bf7-50c335da3e8f.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=478&id=u7c44a165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=478&originWidth=927&originalType=binary&ratio=1&rotation=0&showTitle=false&size=137968&status=done&style=none&taskId=ubc82bd2a-4a3d-4702-97e0-40abfd55795&title=&width=927" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="梯度下降法——古老，不具有实用性"><a href="#梯度下降法——古老，不具有实用性" class="headerlink" title="梯度下降法——古老，不具有实用性"></a>梯度下降法——古老，不具有实用性</h2><p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081460228-d36ad241-dfeb-4b25-a03e-8265d70b1a8e.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=475&id=u85891f16&margin=%5Bobject%20Object%5D&name=image.png&originHeight=475&originWidth=875&originalType=binary&ratio=1&rotation=0&showTitle=false&size=126070&status=done&style=none&taskId=u55992e1a-ea8d-480a-9b66-88609520df4&title=&width=875" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="梯度下降缺点"><a href="#梯度下降缺点" class="headerlink" title="梯度下降缺点"></a>梯度下降缺点</h3><p>梯度法短视，容易出现锯齿状，迭代难收敛。（初始值敏感）<br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081594026-7363421a-22da-43ba-b7b0-26ce296eef38.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=472&id=u9e959126&margin=%5Bobject%20Object%5D&name=image.png&originHeight=472&originWidth=803&originalType=binary&ratio=1&rotation=0&showTitle=false&size=241287&status=done&style=none&taskId=u541bf8b4-8bb5-4f4c-a16d-b95c92d2bd3&title=&width=803" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081616151-b064634f-c7ff-4061-86c0-11dc6bb38758.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=486&id=ud1891748&margin=%5Bobject%20Object%5D&name=image.png&originHeight=486&originWidth=846&originalType=binary&ratio=1&rotation=0&showTitle=false&size=291193&status=done&style=none&taskId=u87ccf298-d272-42b5-a835-ca15c162d9b&title=&width=846" srcset="/img/loading.gif" lazyload alt="image.png"><br>2.步长选取——容易振荡不收敛</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081705254-7e8b54b0-8003-4290-aefa-b6815bc47793.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=486&id=uadeca433&margin=%5Bobject%20Object%5D&name=image.png&originHeight=486&originWidth=805&originalType=binary&ratio=1&rotation=0&showTitle=false&size=164210&status=done&style=none&taskId=u0ef8a5c3-e2b1-4950-8740-f6683cec747&title=&width=805" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="牛顿法——避免锯齿状迭代"><a href="#牛顿法——避免锯齿状迭代" class="headerlink" title="牛顿法——避免锯齿状迭代"></a>牛顿法——避免锯齿状迭代</h2><p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661081809734-5d8cc0c9-fe15-4bf0-b784-057e7067ba67.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=484&id=uc3c59162&margin=%5Bobject%20Object%5D&name=image.png&originHeight=484&originWidth=834&originalType=binary&ratio=1&rotation=0&showTitle=false&size=187536&status=done&style=none&taskId=u59bd8bb0-0767-4281-a483-9e266f7d27f&title=&width=834" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661082935537-057ad0df-f733-4de1-9995-a41a4fad0c83.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=493&id=uf4d2c7d7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=493&originWidth=892&originalType=binary&ratio=1&rotation=0&showTitle=false&size=80095&status=done&style=none&taskId=u27d9164e-e4f8-4ab4-a147-6663ed9fe32&title=&width=892" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661082675852-8ac1ab71-9dd3-4084-a748-2f30e89d13fc.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=482&id=uaf726490&margin=%5Bobject%20Object%5D&name=image.png&originHeight=482&originWidth=893&originalType=binary&ratio=1&rotation=0&showTitle=false&size=86988&status=done&style=none&taskId=u71d939eb-15ce-421e-a192-acb12caa308&title=&width=893" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661083050740-4d7fcc0a-4adf-46fa-845b-197267bb056e.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=459&id=ucdfcb18b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=459&originWidth=922&originalType=binary&ratio=1&rotation=0&showTitle=false&size=100236&status=done&style=none&taskId=uc9d78547-471b-4c84-90fc-98ae9060d93&title=&width=922" srcset="/img/loading.gif" lazyload alt="image.png"><br><strong>两点一阶导数</strong>相同，但是红点<strong>二阶导数</strong>大，所以步长小<br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661083250667-797bab83-1a61-4fcd-92c5-4615c1d3e0ed.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=807&id=u5af9f4ce&margin=%5Bobject%20Object%5D&name=image.png&originHeight=807&originWidth=1379&originalType=binary&ratio=1&rotation=0&showTitle=false&size=298901&status=done&style=none&taskId=u5a415916-0939-4dfb-85ae-0c38d8c093b&title=&width=1379" srcset="/img/loading.gif" lazyload alt="image.png"><br>蓝点二阶导数小，步长大 缺点：海森矩阵计算量大</p>
+<h2 id="高斯-牛顿函数"><a href="#高斯-牛顿函数" class="headerlink" title="高斯-牛顿函数"></a>高斯-牛顿函数</h2><p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084006225-dd31d2be-2cbd-44e0-a616-2bbdd82cfc35.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=759&id=u4c1def9b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=759&originWidth=1430&originalType=binary&ratio=1&rotation=0&showTitle=false&size=269934&status=done&style=none&taskId=u253f75a2-0769-460e-a18a-ab57f522503&title=&width=1430" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084064038-9a4a0bc4-b77e-4e90-9a05-7a2284247b16.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=563&id=u6fe4f261&margin=%5Bobject%20Object%5D&name=image.png&originHeight=563&originWidth=976&originalType=binary&ratio=1&rotation=0&showTitle=false&size=156620&status=done&style=none&taskId=u089e4b1d-d486-4e12-9c2b-77eb0e535c0&title=&width=976" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084079351-03527915-7a03-48ba-83f0-15d1bbbc091f.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=187&id=ub5360066&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=825&originalType=binary&ratio=1&rotation=0&showTitle=false&size=46883&status=done&style=none&taskId=u7a6ec5f8-2ea3-4207-81f2-858f68f430a&title=&width=825" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1660446916806-6cc5f898-748c-4794-84a9-6c2fc62d188a.png#clientId=udba6befc-d257-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=217&id=Ndqqf&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=1047&originalType=binary&ratio=1&rotation=0&showTitle=false&size=48662&status=done&style=none&taskId=ua188d4a8-ac16-4d76-b790-225988ca14e&title=&width=1047" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="LM方法"><a href="#LM方法" class="headerlink" title="LM方法"></a>LM方法</h2><p>阻尼牛顿法 一阶泰勒没法近似<br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084176866-e758d156-f05d-4f67-9dc0-a4370afe8b57.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=714&id=ubd3c7421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=714&originWidth=1444&originalType=binary&ratio=1&rotation=0&showTitle=false&size=310383&status=done&style=none&taskId=ucda6ba50-0108-4ac6-b203-3404c917439&title=&width=1444" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<ol>
+<li>对与 μ&gt;0 ， (H+μI) 正定，保证了 h 是梯度下降的方向。</li>
+<li>当 <strong>μ 较大</strong>时： h≈−1μg&#x3D;−1μF′(x) ，其实就是<strong>梯度、最速下降法</strong>，当离最终结果较远的时候，很好。</li>
+<li>当** μ 较小<strong>时，方法接近与</strong>高斯牛顿<strong>，当离最终结果很近时，可以获得</strong>二次收敛速度**，很好<br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084431955-3565afb5-f615-4a89-b207-608d020428c1.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=773&id=u988f6eba&margin=%5Bobject%20Object%5D&name=image.png&originHeight=773&originWidth=1349&originalType=binary&ratio=1&rotation=0&showTitle=false&size=178595&status=done&style=none&taskId=u8d41a0b4-6f47-43ae-87e7-f309a4851b6&title=&width=1349" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084537208-810c7570-9b34-4622-9092-e5105ec893bc.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=751&id=u582af32b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=751&originWidth=1347&originalType=binary&ratio=1&rotation=0&showTitle=false&size=280393&status=done&style=none&taskId=ud5a95850-0354-47e9-9d81-82c5c085641&title=&width=1347" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29177731/1661084606734-a072dee2-0e58-4be2-960c-c73441b7f8c6.png#clientId=uc8317764-01c7-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=215&id=u88f9c17b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=215&originWidth=799&originalType=binary&ratio=1&rotation=0&showTitle=false&size=69484&status=done&style=none&taskId=u8ec4d9f7-34d5-471d-bcac-9e8b4fa4090&title=&width=799" srcset="/img/loading.gif" lazyload alt="image.png"><br><strong>LM算法是介于牛顿法与梯度下降法之间的一种非线性优化方法，对于过参数化问题不敏感，能有效处理冗余参数问题，使代价函数陷入局部极小值的机会大大减小，这些特性使得LM算法在计算机视觉等领域得到广泛应用。</strong></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2022/09/06/最优化算法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月6日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/30/%E7%89%9B%E5%AE%A2%E8%AE%BA%E5%9D%9B%E9%A1%B9%E7%9B%AE%E4%BB%BF%E5%86%99/" title="牛客论坛项目">
+                        <span class="hidden-mobile">牛客论坛项目</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
